@@ -2,29 +2,30 @@ import { useState } from "react";
 import { team } from "../data/team";
 
 const LoadMore = () => {
-  const [visibleContent, setVisibleContent] = useState(3);
+  const minimumContentLength = 3;
+  const [visibleContent, setVisibleContent] = useState(minimumContentLength);
   const contentArray = team.slice(0, visibleContent);
 
   const randomColor = () => {
-    const letters = "0123456789abcdef";
-    let color = "#";
+    const hexLetters = "0123456789abcdef";
+    let hexCode = "#";
     for (let i = 0; i < 6; i++) {
-      const letter = letters[Math.floor(Math.random() * 16)];
-      color += letter;
+      const letter = hexLetters[Math.floor(Math.random() * hexLetters.length)];
+      hexCode += letter;
     }
-    return color;
+    return hexCode;
   };
 
   const handleLoadMore = () => {
-    if (visibleContent <= team.length - 3) {
-      setVisibleContent((prev) => prev + 3);
+    if (visibleContent <= team.length - minimumContentLength) {
+      setVisibleContent((prev) => prev + minimumContentLength);
     } else {
       setVisibleContent(team.length);
     }
   };
 
   const handleShowLess = () => {
-    setVisibleContent(3);
+    setVisibleContent(minimumContentLength);
   };
 
   return (
@@ -55,7 +56,7 @@ const LoadMore = () => {
               </h2>
               <p className="text-center text-gray-500 text-sm">{item.about}</p>
               <button
-                className="w-full bg-gray-300 py-2.5 rounded mt-4 text-white border border-black 
+                className="w-full bg-gray-300 py-2.5 rounded mt-4 text-white border border-red-950 
                 text-shadow-2xs hover:scale-[1.04] transition-all duration-500 ease-in-out cursor-pointer"
               >
                 Connect
@@ -70,7 +71,7 @@ const LoadMore = () => {
             className={`${
               visibleContent < team.length
                 ? " bg-blue-500  cursor-pointer hover:bg-blue-600 transition-all delay-100"
-                : "bg-gray-300 cursor-not-allowed"
+                : "bg-gray-300 opacity-50 cursor-not-allowed"
             } text-sm text-white px-5 py-2.5 rounded `}
           >
             Load More
@@ -78,8 +79,8 @@ const LoadMore = () => {
           <button
             onClick={handleShowLess}
             className={`${
-              visibleContent <= 3
-                ? "bg-gray-300 cursor-not-allowed"
+              visibleContent <= minimumContentLength
+                ? "bg-gray-300 opacity-50 cursor-not-allowed"
                 : "bg-green-500 cursor-pointer hover:bg-green-600 transition-all delay-100"
             }  text-sm text-white px-5 py-2.5 rounded `}
           >
